@@ -5,31 +5,25 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import kotlinx.coroutines.delay
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun Animacao(
+    imagens: List<String>,
     modifier: Modifier = Modifier,
-    imagens: List<DrawableResource>,
-    delay: Long = 10000L
+    delayMs: Long = 8000L
 ) {
-    if (imagens.isEmpty()) {
-        return
-    }
+    if (imagens.isEmpty()) return
+
     var indiceAtual by remember { mutableStateOf(0) }
-    LaunchedEffect(key1 = delay) {
+
+    LaunchedEffect(key1 = imagens) {
         while (true) {
-            delay(delay)
+            delay(delayMs)
             indiceAtual = (indiceAtual + 1) % imagens.size
         }
     }
@@ -38,9 +32,9 @@ fun Animacao(
         Crossfade(
             targetState = indiceAtual,
             animationSpec = tween(durationMillis = 1000)
-        ) { indiceDaImagem ->
+        ) { indice ->
             Image(
-                painter = painterResource(imagens[indiceDaImagem]),
+                painter = painterResource(imagens[indice]),
                 contentDescription = "Imagem do carrossel",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop

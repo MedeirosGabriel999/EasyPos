@@ -6,5 +6,5 @@ sealed class Screen {
     object Carrinho : Screen()
     object Historico : Screen()
     data class DetalhesVenda(val idVenda: String) : Screen()
-    object PagamentoPix : Screen()
+    object Pagamento : Screen()
 }

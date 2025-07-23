@@ -6,5 +6,5 @@ object Routes {
     const val Carrinho = "carrinho"
     const val Historico = "historico"
     const val DetalhesVenda = "detalhes_venda"
-    const val PagamentoPix = "pagamento_pix"
+    const val Pagamento = "pagamento"
 }
