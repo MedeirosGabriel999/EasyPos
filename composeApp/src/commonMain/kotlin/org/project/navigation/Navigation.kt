@@ -7,4 +7,5 @@ object Routes {
     const val Historico = "historico"
     const val DetalhesVenda = "detalhes_venda"
     const val Pagamento = "pagamento"
+    const val FormasPagamento = "formas_pagamento"
 }

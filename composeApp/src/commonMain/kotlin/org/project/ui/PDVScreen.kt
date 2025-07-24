@@ -22,117 +22,146 @@ import org.project.ui.components.ProdutoCard
 fun PDVScreen(onNavigate: (Screen) -> Unit) {
     val produtos = remember { mockProdutos }
     val carrinho = remember { mutableStateListOf<ItemCarrinho>() }
+    var telaPagamentoFormas by remember { mutableStateOf(false) }
+    var telaProcessandoPagamento by remember { mutableStateOf(false) }
 
-    Row(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF1C1C1C))
-            .padding(12.dp)
-    ) {
-        // CATEGORIAS
-        Column(
+    Box(modifier = Modifier.fillMaxSize()) {
+        Row(
             modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-                .padding(end = 8.dp)
-                .background(Color(0xFF2E2E2E)),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
+                .background(Color(0xFF1C1C1C))
+                .padding(12.dp)
         ) {
-            Text("Categorias", fontSize = 20.sp, color = Color.White, modifier = Modifier.padding(top = 12.dp))
-
-            listOf("Lanches", "Bebidas", "Sobremesas").forEach { categoria ->
-                Button(
-                    onClick = { /* Filtro em breve */ },
-                    modifier = Modifier
-                        .fillMaxWidth(0.9f)
-                        .height(48.dp)
-                ) {
-                    Text(categoria)
-                }
-            }
-        }
-
-        // PRODUTOS
-        Column(
-            modifier = Modifier
-                .weight(2f)
-                .fillMaxHeight()
-                .padding(horizontal = 8.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Text("Produtos", fontSize = 20.sp, color = Color.White, modifier = Modifier.padding(vertical = 12.dp))
-
-            produtos.forEach { produto ->
-                ProdutoCard(produto = produto) {
-                    adicionarProduto(it, carrinho)
-                }
-            }
-        }
-
-        // CARRINHO
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-                .padding(start = 8.dp)
-                .background(Color(0xFF2E2E2E)),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
+            // CATEGORIAS
             Column(
                 modifier = Modifier
-                    .padding(12.dp)
-                    .verticalScroll(rememberScrollState())
                     .weight(1f)
+                    .fillMaxHeight()
+                    .padding(end = 8.dp)
+                    .background(Color(0xFF2E2E2E)),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                carrinho.forEach { item ->
-                    Row(
+                Text("Categorias", fontSize = 20.sp, color = Color.White, modifier = Modifier.padding(top = 12.dp))
+                listOf("Lanches", "Bebidas", "Sobremesas").forEach { categoria ->
+                    Button(
+                        onClick = { /* Em breve: filtro */ },
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
+                            .fillMaxWidth(0.9f)
+                            .height(48.dp)
                     ) {
-                        Text(
-                            "${item.produto.nome} x${item.quantidade}",
-                            color = Color.White,
-                            modifier = Modifier.weight(1f)
-                        )
-                        Text(
-                            "R$ %.2f".format(item.total),
-                            color = Color.White,
-                            modifier = Modifier.padding(end = 8.dp)
-                        )
-                        Row {
-                            Button(onClick = {
-                                diminuirProduto(item.produto, carrinho)
-                            }, contentPadding = PaddingValues(0.dp), modifier = Modifier.size(32.dp)) {
-                                Text("−")
-                            }
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Button(onClick = {
-                                adicionarProduto(item.produto, carrinho)
-                            }, contentPadding = PaddingValues(0.dp), modifier = Modifier.size(32.dp)) {
-                                Text("+")
-                            }
-                        }
+                        Text(categoria)
                     }
                 }
             }
 
-            Column(modifier = Modifier.padding(12.dp)) {
-                val total = carrinho.sumOf { it.total }
-                Text("Total: R$ %.2f".format(total), fontSize = 18.sp, color = Color.Yellow)
-                Button(
-                    onClick = { onNavigate(Screen.Pagamento) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                ) {
-                    Text("Pagar")
+            // PRODUTOS
+            Column(
+                modifier = Modifier
+                    .weight(2f)
+                    .fillMaxHeight()
+                    .padding(horizontal = 8.dp)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text("Produtos", fontSize = 20.sp, color = Color.White, modifier = Modifier.padding(vertical = 12.dp))
+                produtos.forEach { produto ->
+                    ProdutoCard(produto = produto) {
+                        adicionarProduto(it, carrinho)
+                    }
                 }
             }
+
+            // CARRINHO
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .padding(start = 8.dp)
+                    .background(Color(0xFF2E2E2E)),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(12.dp)
+                        .verticalScroll(rememberScrollState())
+                        .weight(1f)
+                ) {
+                    carrinho.forEach { item ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text("${item.produto.nome} x${item.quantidade}", color = Color.White, modifier = Modifier.weight(1f))
+                            Text("R$ %.2f".format(item.total), color = Color.White, modifier = Modifier.padding(end = 8.dp))
+                            Row {
+                                Button(
+                                    onClick = { diminuirProduto(item.produto, carrinho) },
+                                    contentPadding = PaddingValues(0.dp),
+                                    modifier = Modifier.size(32.dp)
+                                ) {
+                                    Text("−")
+                                }
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Button(
+                                    onClick = { adicionarProduto(item.produto, carrinho) },
+                                    contentPadding = PaddingValues(0.dp),
+                                    modifier = Modifier.size(32.dp)
+                                ) {
+                                    Text("+")
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Column(modifier = Modifier.padding(12.dp)) {
+                    val total = carrinho.sumOf { it.total }
+                    Text("Total: R$ %.2f".format(total), fontSize = 18.sp, color = Color.Yellow)
+                    Button(
+                        onClick = { telaPagamentoFormas = true },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
+                    ) {
+                        Text("Pagar")
+                    }
+                }
+            }
+        }
+
+        // Tela flutuante: Formas de pagamento
+        if (telaPagamentoFormas) {
+            PagamentoScreen(
+                onSelecionarForma = {
+                    telaPagamentoFormas = false
+                    telaProcessandoPagamento = true
+                },
+                onCancelar = {
+                    telaPagamentoFormas = false
+                }
+            )
+        }
+
+        // Tela flutuante: Processando pagamento
+        if (telaProcessandoPagamento) {
+            PagamentoScreen(
+                onNavigate = onNavigate,
+                onFecharModal = {
+                    telaProcessandoPagamento = false
+                },
+                onResultado = { sucesso ->
+                    telaProcessandoPagamento = false
+                    if (sucesso) {
+                        carrinho.clear()
+                    } else {
+                        telaPagamentoFormas = true
+                    }
+                }
+            )
         }
     }
 }

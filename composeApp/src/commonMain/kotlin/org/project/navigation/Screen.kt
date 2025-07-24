@@ -7,4 +7,5 @@ sealed class Screen {
     object Historico : Screen()
     data class DetalhesVenda(val idVenda: String) : Screen()
     object Pagamento : Screen()
+    object FormasPagamento : Screen()
 }

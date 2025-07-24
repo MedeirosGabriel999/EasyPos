@@ -4,10 +4,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import org.project.navigation.Screen
-import org.project.ui.HistoricoScreen
-import org.project.ui.PDVScreen
-import org.project.ui.PagamentoScreen
-import org.project.ui.SplashScreen
+import org.project.ui.*
+
 
 @Composable
 fun App() {
@@ -26,11 +24,28 @@ fun App() {
     ) {
         when (val screen = currentScreen) {
             is Screen.Splash -> SplashScreen(onNavigate = { currentScreen = it })
+
             is Screen.PDV -> PDVScreen(onNavigate = { currentScreen = it })
+
             is Screen.Historico -> HistoricoScreen()
+
             is Screen.Carrinho -> TODO("Tela do carrinho separada (se houver)")
+
             is Screen.DetalhesVenda -> TODO("Tela detalhes da venda para ID: ${screen.idVenda}")
-            is Screen.Pagamento -> PagamentoScreen(onNavigate = { currentScreen = it })
+
+            is Screen.FormasPagamento -> PagamentoScreen(
+                onSelecionarForma = { currentScreen = it },
+                onCancelar = { currentScreen = Screen.PDV }
+            )
+
+            is Screen.Pagamento -> PagamentoScreen(
+                onNavigate = { currentScreen = it },
+                onFecharModal = {},
+                onResultado = { sucesso ->
+
+
+                }
+            )
         }
     }
 }
