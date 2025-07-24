@@ -118,3 +118,4 @@ documentation.yaml
 /composeApp/build
 *.properties
 /composeApp/docs/.swagger-codegen-ignore
+/.kotlin/sessions/kotlin-compiler-755547592029404469.salive
