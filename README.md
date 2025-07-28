@@ -1,2 +1,0 @@
-# EasyPos
-Auto Atendimento
