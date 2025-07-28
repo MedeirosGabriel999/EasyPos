@@ -5,6 +5,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import org.project.navigation.Screen
 import org.project.ui.*
+import org.project.ui.theme.*
 
 
 @Composable
@@ -13,14 +14,14 @@ fun App() {
 
     MaterialTheme(
         colorScheme = darkColorScheme(
-            primary = Color(0xFF00BCD4),
-            background = Color(0xFF121212),
+            primary = AzulClaro,
+            background = Preto,
             surface = Color(0xFF1E1E1E),
-            onPrimary = Color.White,
-            onBackground = Color.White,
-            onSurface = Color.White
+            error = VermelhoErro,
+            onPrimary = Branco,
+            onSurface = Branco
         ),
-        typography = Typography()
+        typography = AppTypography
     ) {
         when (val screen = currentScreen) {
             is Screen.Splash -> SplashScreen(onNavigate = { currentScreen = it })

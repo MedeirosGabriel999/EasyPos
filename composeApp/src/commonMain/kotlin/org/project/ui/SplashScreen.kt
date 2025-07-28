@@ -1,80 +1,55 @@
+// Tela inicial do EasyPOS com carrossel de imagens.
+// Usa Crossfade para alternar visualmente e vai para PDV ao clique do usuário.
+
 package org.project.ui
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import org.project.navigation.Screen
 
 @Composable
 fun SplashScreen(onNavigate: (Screen) -> Unit) {
-    var visible by remember { mutableStateOf(false) }
-    var indiceAtual by remember { mutableStateOf(0) }
-
-    // Imagens para o carrossel
+    // Lista de imagens do carrossel
     val imagens = listOf(
         "banners/banner1.png",
         "banners/banner2.png",
-        "banners/banner3.png"
+        "banners/banner3.png",
+        "banners/banner4.png",
     )
 
-    // Inicia a animação e navegação após tempo
+    var index by remember { mutableStateOf(0) }
+
+    // Controla a troca automática das imagens
     LaunchedEffect(Unit) {
-        visible = true
-        delay(2500)
-        onNavigate(Screen.PDV)
+        while (true) {
+            delay(2500) // troca a cada 2,5 segundos
+            index = (index + 1) % imagens.size
+        }
     }
 
+    // Tela clicável para prosseguir
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black),
+            .clickable { onNavigate(Screen.PDV) }, // vai para PDV ao clicar
         contentAlignment = Alignment.Center
     ) {
-        // 🔄 Animação de carrossel no fundo
-        if (visible) {
-            LaunchedEffect(Unit) {
-                while (true) {
-                    delay(5000)
-                    indiceAtual = (indiceAtual + 1) % imagens.size
-                }
-            }
-
-            Crossfade(
-                targetState = indiceAtual,
-                animationSpec = tween(durationMillis = 1000)
-            ) { indice ->
-                Image(
-                    painter = painterResource(imagens[indice]),
-                    contentDescription = "Banner Splash",
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-            }
-        }
-
-        // 🔤 Texto central animado
-        AnimatedVisibility(visible = visible, enter = fadeIn()) {
-            Text(
-                text = "EasyPOS",
-                fontSize = 48.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                style = MaterialTheme.typography.headlineLarge
+        Crossfade(targetState = imagens[index], label = "SplashCarrossel") { imagem ->
+            Image(
+                painter = painterResource(imagem),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(32.dp)
             )
         }
     }

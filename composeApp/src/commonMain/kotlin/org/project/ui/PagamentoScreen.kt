@@ -1,3 +1,6 @@
+// Tela flutuante de processamento e resultado de pagamento.
+// Exibe status "processando", "sucesso" ou "erro" com feedback visual animado.
+
 package org.project.ui
 
 import androidx.compose.foundation.background
@@ -9,10 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 import org.project.navigation.Screen
+import org.project.ui.theme.LocalSpacing
 
 @Composable
 fun PagamentoScreen(
@@ -20,74 +23,80 @@ fun PagamentoScreen(
     onFecharModal: () -> Unit,
     onResultado: (sucesso: Boolean) -> Unit
 ) {
+    val spacing = LocalSpacing.current
     var status by remember { mutableStateOf("processando") }
 
-    // Simula o processamento do pagamento
+    // Simula processamento com delay e resultado aleatório
     LaunchedEffect(Unit) {
         delay(2000)
-        val sucesso = Random.nextInt(100) < 50 // 50% de chance de sucesso
+        val sucesso = Random.nextInt(100) < 50
         status = if (sucesso) "sucesso" else "erro"
 
         delay(3000)
 
         if (sucesso) {
-            onResultado(true)             // limpa carrinho (opcional)
-            onNavigate(Screen.PDV)        // volta para PDV
+            onResultado(true)
+            onNavigate(Screen.PDV)
         } else {
-            onResultado(false)            // não limpa carrinho
-
+            onResultado(false)
         }
     }
 
-    // Modal flutuante com feedback visual
+    // Tela escurecida com modal central
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xAA000000)),
+            .background(Color(0xAA000000)), // fundo translúcido
         contentAlignment = Alignment.Center
     ) {
         Card(
             modifier = Modifier
-                .width(400.dp)
+                .width(360.dp)
                 .wrapContentHeight(),
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E1E))
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp),
+                    .padding(spacing.large),
                 contentAlignment = Alignment.Center
             ) {
                 when (status) {
                     "processando" -> {
-                        Text(
-                            text = "Processando pagamento...",
-                            fontSize = 20.sp,
-                            color = Color.White
-                        )
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            CircularProgressIndicator(
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.height(spacing.medium))
+                            Text(
+                                "Processando pagamento...",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
                     }
 
                     "sucesso" -> {
                         Text(
-                            text = "✅ Pagamento aprovado com sucesso!",
-                            fontSize = 20.sp,
-                            color = Color(0xFF4CAF50)
+                            "✅ Pagamento aprovado com sucesso!",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.tertiary
                         )
                     }
 
                     "erro" -> {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
-                                text = "❌ Pagamento recusado!",
-                                fontSize = 20.sp,
-                                color = Color.Red
+                                "❌ Pagamento recusado!",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.error
                             )
-                            Spacer(modifier = Modifier.height(12.dp))
+                            Spacer(modifier = Modifier.height(spacing.small))
                             Text(
-                                text = "Tente novamente ou escolha outro método.",
-                                fontSize = 16.sp,
-                                color = Color.White
+                                "Tente novamente ou escolha outro método.",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
