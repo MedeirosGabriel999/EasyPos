@@ -20,8 +20,8 @@ fun App() {
             error = VermelhoErro,
             onPrimary = Branco,
             onSurface = Branco
-        ),
-        typography = AppTypography
+        )
+//        typography = AppTypography
     ) {
         when (val screen = currentScreen) {
             is Screen.Splash -> SplashScreen(onNavigate = { currentScreen = it })

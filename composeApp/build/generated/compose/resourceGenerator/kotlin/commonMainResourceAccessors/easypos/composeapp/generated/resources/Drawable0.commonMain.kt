@@ -11,6 +11,36 @@ import org.jetbrains.compose.resources.ResourceItem
 
 private const val MD: String = "composeResources/easypos.composeapp.generated.resources/"
 
+internal val Res.drawable.banner1: DrawableResource by lazy {
+      DrawableResource("drawable:banner1", setOf(
+        ResourceItem(setOf(), "${MD}drawable/banner1.png", -1, -1),
+      ))
+    }
+
+internal val Res.drawable.banner2: DrawableResource by lazy {
+      DrawableResource("drawable:banner2", setOf(
+        ResourceItem(setOf(), "${MD}drawable/banner2.png", -1, -1),
+      ))
+    }
+
+internal val Res.drawable.banner3: DrawableResource by lazy {
+      DrawableResource("drawable:banner3", setOf(
+        ResourceItem(setOf(), "${MD}drawable/banner3.png", -1, -1),
+      ))
+    }
+
+internal val Res.drawable.banner4: DrawableResource by lazy {
+      DrawableResource("drawable:banner4", setOf(
+        ResourceItem(setOf(), "${MD}drawable/banner4.png", -1, -1),
+      ))
+    }
+
+internal val Res.drawable.banners: DrawableResource by lazy {
+      DrawableResource("drawable:banners", setOf(
+        ResourceItem(setOf(), "${MD}drawable/banners", -1, -1),
+      ))
+    }
+
 internal val Res.drawable.burguer1: DrawableResource by lazy {
       DrawableResource("drawable:burguer1", setOf(
         ResourceItem(setOf(), "${MD}drawable/burguer1.png", -1, -1),
@@ -55,6 +85,11 @@ internal val Res.drawable.suco1: DrawableResource by lazy {
 
 @InternalResourceApi
 internal fun _collectCommonMainDrawable0Resources(map: MutableMap<String, DrawableResource>) {
+  map.put("banner1", Res.drawable.banner1)
+  map.put("banner2", Res.drawable.banner2)
+  map.put("banner3", Res.drawable.banner3)
+  map.put("banner4", Res.drawable.banner4)
+  map.put("banners", Res.drawable.banners)
   map.put("burguer1", Res.drawable.burguer1)
   map.put("burguer2", Res.drawable.burguer2)
   map.put("compose_multiplatform", Res.drawable.compose_multiplatform)

@@ -88,13 +88,25 @@ fun PDVScreen(onNavigate: (Screen) -> Unit) {
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(vertical = spacing.medium)
                     )
-                    produtos
-                        .filter { categoriaSelecionada == null || it.categoria == categoriaSelecionada }
-                        .forEach { produto ->
-                            ProdutoCard(produto = produto) {
-                                adicionarProduto(it, carrinho)
+                    FlowRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp), // Espaçamento horizontal
+                        verticalArrangement = Arrangement.spacedBy(12.dp)  // Espaçamento vertical
+                    ) {
+                        produtos
+                            .filter { categoriaSelecionada == null || it.categoria == categoriaSelecionada }
+                            .forEach { produto ->
+                                // 4. Passe um Modifier para o ProdutoCard definindo seu tamanho
+                                ProdutoCard(
+                                    produto = produto,
+                                    modifier = Modifier.width(220.dp) // Defina a largura de cada card
+                                ) {
+                                    adicionarProduto(it, carrinho)
+                                }
                             }
-                        }
+                    }
                 }
 
                 // CARRINHO
@@ -103,7 +115,7 @@ fun PDVScreen(onNavigate: (Screen) -> Unit) {
                         .weight(1f)
                         .fillMaxHeight()
                         .padding(start = spacing.medium)
-                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                        .background(MaterialTheme.colorScheme.surfaceVariant, shape = MaterialTheme.shapes.large),
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     // ITENS DO CARRINHO

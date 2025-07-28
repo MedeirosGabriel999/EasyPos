@@ -7,23 +7,31 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.layout.ContentScale
+import easypos.composeapp.generated.resources.Res
+import easypos.composeapp.generated.resources.banner1
+import easypos.composeapp.generated.resources.banner2
+import easypos.composeapp.generated.resources.banner3
+import easypos.composeapp.generated.resources.banners
+import easypos.composeapp.generated.resources.burguer1
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.painterResource
 import org.project.navigation.Screen
+
+private const val CAROUSEL_DELAY_MS = 3000L
 
 @Composable
 fun SplashScreen(onNavigate: (Screen) -> Unit) {
+
     // Lista de imagens do carrossel
     val imagens = listOf(
-        "banners/banner1.png",
-        "banners/banner2.png",
-        "banners/banner3.png",
-        "banners/banner4.png",
+        Res.drawable.banner1,
+        Res.drawable.banner2,
+        Res.drawable.banner3,
+        Res.drawable.banner1
     )
 
     var index by remember { mutableStateOf(0) }
@@ -31,7 +39,7 @@ fun SplashScreen(onNavigate: (Screen) -> Unit) {
     // Controla a troca automática das imagens
     LaunchedEffect(Unit) {
         while (true) {
-            delay(2500) // troca a cada 2,5 segundos
+            delay(CAROUSEL_DELAY_MS)
             index = (index + 1) % imagens.size
         }
     }
@@ -46,10 +54,13 @@ fun SplashScreen(onNavigate: (Screen) -> Unit) {
         Crossfade(targetState = imagens[index], label = "SplashCarrossel") { imagem ->
             Image(
                 painter = painterResource(imagem),
+                contentScale = ContentScale.FillBounds,
                 contentDescription = null,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(32.dp)
+                    .fillMaxSize()
+
+
+//                    .padding(32.dp)
             )
         }
     }

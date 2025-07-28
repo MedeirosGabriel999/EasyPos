@@ -1,80 +1,87 @@
-// Componente visual do produto usado na tela de vendas.
-// Mostra imagem, nome, preço e botão de adicionar.
-// Aplica tema global de tipografia, cores e espaçamento para manter consistência visual.
-
 package org.project.ui.components
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import easypos.composeapp.generated.resources.Res
+import easypos.composeapp.generated.resources.fallback
+import org.jetbrains.compose.resources.painterResource
 import org.project.models.Produto
-import org.project.ui.theme.LocalSpacing
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ProdutoCard(
     produto: Produto,
+    modifier: Modifier = Modifier,
     onAdicionar: (Produto) -> Unit
 ) {
-    val spacing = LocalSpacing.current
+
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(targetValue = if (isPressed) 0.97f else 1f)
 
     Card(
-        modifier = Modifier
-            .padding(spacing.small)
-            .fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        modifier = modifier
+            .scale(scale)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = ripple(),
+                onClick = { onAdicionar(produto) }
+            ),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF2A2A2A))
     ) {
-        Row(
+
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(spacing.medium), // aplicando padding consistente
-            verticalAlignment = Alignment.CenterVertically
+                .padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            // Imagem do produto com fallback
+            // Imagem do produto
             Image(
-                painter = painterResource(produto.imagem ?: "images/fallback.png"),
+                painter = painterResource(produto.imagem ?: Res.drawable.fallback),
                 contentDescription = produto.nome,
                 contentScale = ContentScale.Crop,
+                alignment = Alignment.Center,
                 modifier = Modifier
                     .size(80.dp)
-                    .background(Color.Gray) // opcional: pode trocar por MaterialTheme.colorScheme.primary
+//                    .background(Color.Gray)
             )
 
-            Spacer(modifier = Modifier.width(spacing.medium))
+            Spacer(modifier = Modifier.height(3.dp))
 
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = produto.nome,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Spacer(modifier = Modifier.height(spacing.small))
-                Text(
-                    text = "R$ %.2f".format(produto.preco),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
+//            Column(
+//                modifier = Modifier.weight(1f)
+//            ) {
+            Text(produto.nome, color = Color.White, fontSize = 18.sp)
+            Text("R$ %.2f".format(produto.preco), color = Color(0xFFB0FFB0))
+//            }
 
-            Spacer(modifier = Modifier.width(spacing.medium))
-
-            Button(
-                onClick = { onAdicionar(produto) },
-                modifier = Modifier.height(36.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
-            ) {
-                Text("Adicionar")
-            }
+//            Button(
+//                onClick = { onAdicionar(produto) },
+//                modifier = Modifier.height(36.dp)
+//            ) {
+//                Text("Adicionar")
+//            }
         }
     }
 }
