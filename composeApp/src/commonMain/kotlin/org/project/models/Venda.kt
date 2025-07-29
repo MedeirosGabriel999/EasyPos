@@ -8,5 +8,5 @@ data class Venda(
     val id: String,
     val data: String,
     val total: Double,
-    val itens: List<Produto>
+    val itens: List<ProdutoVenda>
 )

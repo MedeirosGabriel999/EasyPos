@@ -5,8 +5,6 @@
 package org.project.ui
 
 import androidx.compose.animation.Crossfade
-import org.project.ui.components.CategoriaMenu
-import org.project.ui.components.ItemCarrinhoView
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -14,22 +12,26 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.project.data.mockProdutos
 import org.project.models.ItemCarrinho
-import org.project.models.Produto
 import org.project.navigation.Screen
+import org.project.ui.components.CategoriaMenu
+import org.project.ui.components.ItemCarrinhoView
 import org.project.ui.components.ProdutoCard
 import org.project.ui.theme.LocalSpacing
 import org.project.utils.adicionarProduto
 import org.project.utils.diminuirProduto
+import org.project.utils.salvarVendaAtual
 
 @Composable
-fun PDVScreen(onNavigate: (Screen) -> Unit) {
+fun PDVScreen(
+    isDarkTheme: (Boolean) -> Unit,
+    onNavigate: (Screen) -> Unit
+) {
+    var theme by remember { mutableStateOf(false) } // false = Light, true = Dark
     val produtos = remember { mockProdutos }
     val carrinho = remember { mutableStateListOf<ItemCarrinho>() }
     var telaPagamentoFormas by remember { mutableStateOf(false) }
@@ -62,6 +64,14 @@ fun PDVScreen(onNavigate: (Screen) -> Unit) {
                     "EasyPOS",
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface
+                )
+
+                RadioButton(
+                    onClick = {
+                        theme = !theme
+                        isDarkTheme(theme)
+                    },
+                    selected = theme
                 )
             }
 
@@ -196,6 +206,7 @@ fun PDVScreen(onNavigate: (Screen) -> Unit) {
                     onResultado = { sucesso ->
                         telaProcessandoPagamento = false
                         if (sucesso) {
+                            salvarVendaAtual(carrinho)
                             carrinho.clear()
                         } else {
                             telaPagamentoFormas = true
@@ -203,5 +214,7 @@ fun PDVScreen(onNavigate: (Screen) -> Unit) {
                     }
                 )
             }
-        }}}
+        }
+    }
+}
 

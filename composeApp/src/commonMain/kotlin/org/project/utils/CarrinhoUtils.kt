@@ -10,6 +10,7 @@ import kotlinx.datetime.toLocalDateTime
 import org.project.data.VendasRepository
 import org.project.models.ItemCarrinho
 import org.project.models.Produto
+import org.project.models.ProdutoVenda
 import org.project.models.Venda
 import kotlin.random.Random
 
@@ -39,7 +40,7 @@ fun diminuirProduto(produto: Produto, carrinho: SnapshotStateList<ItemCarrinho>)
     }
 }
 
-private fun salvarVendaAtual(carrinho: List<ItemCarrinho>) {
+fun salvarVendaAtual(carrinho: List<ItemCarrinho>) {
     if (carrinho.isEmpty()) return
 
     val agora = Clock.System.now()
@@ -50,7 +51,11 @@ private fun salvarVendaAtual(carrinho: List<ItemCarrinho>) {
         id = "V${Random.nextLong(100000, 999999)}", // ID aleatório simples
         data = "${dataHoraLocal.date} ${dataHoraLocal.hour}:${dataHoraLocal.minute}",
         total = carrinho.sumOf { it.total },
-        itens = carrinho.map { it.produto }
+        itens = carrinho.map { ProdutoVenda(
+            id= it.produto.id,
+            nome = it.produto.nome,
+            preco = it.produto.preco,
+            categoria = it.produto.categoria)}
     )
 
     VendasRepository.salvarVenda(novaVenda)

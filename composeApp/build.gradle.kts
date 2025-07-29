@@ -1,4 +1,3 @@
-import org.gradle.kotlin.dsl.sourceSets
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -9,15 +8,12 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
 }
 
 kotlin {
-    androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-    }
+    // 1. O bloco 'compilerOptions' foi removido daqui.
+    androidTarget()
 
     jvm("desktop")
 
@@ -29,22 +25,25 @@ kotlin {
             implementation(libs.androidx.activity.compose)
         }
 
-        commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
+        // 2. Estrutura do commonMain corrigida para incluir dependências e recursos
+        //    no mesmo escopo, que é a forma correta.
+        val commonMain by getting {
+            dependencies {
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
+                implementation(libs.androidx.lifecycle.viewmodel)
+                implementation(libs.androidx.lifecycle.runtimeCompose)
 
-//            implementation(projects.shared)
-            api(libs.kotlinx.serialization.json)
-            api(libs.kotlinx.datetime)
-
+                // implementation(projects.shared)
+                api(libs.kotlinx.serialization.json)
+                api(libs.kotlinx.datetime)
             }
-        commonMain.get().resources.setSrcDirs(listOf("src/commonMain/resources"))
+            resources.setSrcDirs(listOf("src/commonMain/resources"))
+        }
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -81,6 +80,7 @@ android {
         }
     }
 
+    // Esta é a configuração correta e suficiente para o Android.
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11

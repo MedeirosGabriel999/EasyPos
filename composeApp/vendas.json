@@ -1,1 +1,40 @@
-[]
+[
+    {
+        "id": "V421790",
+        "data": "2025-07-28 20:53",
+        "total": 22.5,
+        "itens": [
+            {
+                "id": "2",
+                "nome": "Cheeseburguer Bacon",
+                "preco": 22.5,
+                "categoria": "Lanches"
+            }
+        ]
+    },
+    {
+        "id": "V887248",
+        "data": "2025-07-28 20:53",
+        "total": 48.4,
+        "itens": [
+            {
+                "id": "1",
+                "nome": "Hambúrguer Clássico",
+                "preco": 19.9,
+                "categoria": "Lanches"
+            },
+            {
+                "id": "2",
+                "nome": "Cheeseburguer Bacon",
+                "preco": 22.5,
+                "categoria": "Lanches"
+            },
+            {
+                "id": "3",
+                "nome": "Refrigerante Lata",
+                "preco": 6.0,
+                "categoria": "Bebidas"
+            }
+        ]
+    }
+]

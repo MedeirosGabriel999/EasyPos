@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -25,6 +26,7 @@ import easypos.composeapp.generated.resources.Res
 import easypos.composeapp.generated.resources.fallback
 import org.jetbrains.compose.resources.painterResource
 import org.project.models.Produto
+import org.project.ui.theme.EasyPOSTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -46,7 +48,7 @@ fun ProdutoCard(
                 indication = ripple(),
                 onClick = { onAdicionar(produto) }
             ),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF2A2A2A))
+
     ) {
 
         Column(

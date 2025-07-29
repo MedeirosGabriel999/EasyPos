@@ -11,22 +11,28 @@ import org.project.ui.theme.*
 @Composable
 fun App() {
     var currentScreen by remember { mutableStateOf<Screen>(Screen.Splash) }
+    var isDarkTheme by remember { mutableStateOf(false) }
+    LaunchedEffect(isDarkTheme){
 
-    MaterialTheme(
-        colorScheme = darkColorScheme(
-            primary = AzulClaro,
-            background = Preto,
-            surface = Color(0xFF1E1E1E),
-            error = VermelhoErro,
-            onPrimary = Branco,
-            onSurface = Branco
-        )
+    }
+    EasyPOSTheme(isDarkTheme)
+//    MaterialTheme(
+//        colorScheme = darkColorScheme(
+//            primary = AzulClaro,
+//            background = Preto,
+//            surface = Color(0xFF1E1E1E),
+//            error = VermelhoErro,
+//            onPrimary = Branco,
+//            onSurface = Branco
+//        )
 //        typography = AppTypography
-    ) {
+     {
         when (val screen = currentScreen) {
             is Screen.Splash -> SplashScreen(onNavigate = { currentScreen = it })
 
-            is Screen.PDV -> PDVScreen(onNavigate = { currentScreen = it })
+            is Screen.PDV -> PDVScreen(
+                isDarkTheme = { isDarkTheme = it },
+                onNavigate = { currentScreen = it })
 
             is Screen.Historico -> HistoricoScreen()
 
