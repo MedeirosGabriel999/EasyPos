@@ -4,6 +4,9 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 
 private val DarkColorScheme = darkColorScheme(
@@ -14,7 +17,7 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = Color.Black,
     onSecondary = Color.Black,
     onBackground = Color.White,
-    onSurface = Color.White,
+    onSurface = Color(0xFFF0F0F0),
     error = Color(0xFFEC7063)
 )
 
@@ -31,14 +34,34 @@ private val LightColorScheme = lightColorScheme(
     error = Color(0xFFE74C3C)
 )
 
-//val AppTypography = Typography()
 
 @Composable
 fun EasyPOSTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (!darkTheme) DarkColorScheme else LightColorScheme
+    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+
+    val AppTypography = Typography(
+        titleLarge = TextStyle(
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold,
+            color = colorScheme.onSurface // Cor do tema
+        ),
+        bodyLarge = TextStyle(
+            fontSize = 16.sp,
+            color = colorScheme.onSurface
+        ),
+        bodyMedium = TextStyle(
+            fontSize = 14.sp,
+            color = colorScheme.onSurface.copy(alpha = 0.7f)
+        ),
+        labelSmall = TextStyle(
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Medium,
+            color = colorScheme.onSurface.copy(alpha = 0.7f)
+        )
+    )
 
     MaterialTheme(
         colorScheme = colorScheme,
