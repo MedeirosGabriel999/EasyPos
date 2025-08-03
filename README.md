@@ -72,7 +72,7 @@ Abra o projeto no IntelliJ IDEA, aguarde a sincronização do Gradle e execute a
 ### Categorias
 ![categorias](screenshots/categorias.png)
 
-### Banner Promocional
+### Banner Inicial
 ![banner](screenshots/banner1.png)
 
 ---
