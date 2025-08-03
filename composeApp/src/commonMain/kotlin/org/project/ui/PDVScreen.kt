@@ -88,7 +88,7 @@ fun PDVScreen(
                     modifier = Modifier
                         .weight(2f)
                         .fillMaxHeight()
-                        .padding(horizontal = spacing.medium)
+                        .padding(horizontal = spacing.small)
                         .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(spacing.medium)
                 ) {
@@ -96,22 +96,21 @@ fun PDVScreen(
                         "Produtos",
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(vertical = spacing.medium)
+                        modifier = Modifier.padding(vertical = spacing.small)
                     )
+
                     FlowRow(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp), // Espaçamento horizontal
-                        verticalArrangement = Arrangement.spacedBy(12.dp)  // Espaçamento vertical
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(spacing.medium),
+                        verticalArrangement = Arrangement.spacedBy(spacing.medium)
                     ) {
                         produtos
                             .filter { categoriaSelecionada == null || it.categoria == categoriaSelecionada }
                             .forEach { produto ->
-                                // 4. Passe um Modifier para o ProdutoCard definindo seu tamanho
                                 ProdutoCard(
                                     produto = produto,
-                                    modifier = Modifier.width(220.dp) // Defina a largura de cada card
+                                    modifier = Modifier
+                                        .width(180.dp) // Melhor para grid touch e responsividade
                                 ) {
                                     adicionarProduto(it, carrinho)
                                 }
@@ -119,22 +118,27 @@ fun PDVScreen(
                     }
                 }
 
+
                 // CARRINHO
                 Column(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
-                        .padding(start = spacing.medium)
-                        .background(MaterialTheme.colorScheme.surfaceVariant, shape = MaterialTheme.shapes.large),
+                        .padding(start = spacing.small)
+                        .background(
+                            color = MaterialTheme.colorScheme.surfaceVariant,
+                            shape = MaterialTheme.shapes.large
+                        ),
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     // ITENS DO CARRINHO
                     Column(
                         modifier = Modifier
-                            .padding(spacing.medium)
+                            .padding(spacing.small)
                             .verticalScroll(rememberScrollState())
                             .weight(1f)
-                            .animateContentSize()
+                            .animateContentSize(),
+                        verticalArrangement = Arrangement.spacedBy(spacing.small)
                     ) {
                         carrinho.forEach { item ->
                             ItemCarrinhoView(
@@ -146,26 +150,58 @@ fun PDVScreen(
                     }
 
                     // TOTAL E PAGAMENTO
-                    Column(modifier = Modifier.padding(spacing.medium)) {
+                    Column(
+                        modifier = Modifier
+                            .padding(spacing.small)
+                            .fillMaxWidth()
+                            .background(
+                                color = MaterialTheme.colorScheme.primaryContainer,
+                                shape = MaterialTheme.shapes.medium
+                            )
+                            .padding(spacing.medium)
+                    ) {
                         val total = carrinho.sumOf { it.total }
-                        Text(
-                            "Total: R$ %.2f".format(total),
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.tertiary
-                        )
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                "Total:",
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                            Text(
+                                "R$ %.2f".format(total),
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(spacing.small))
+
                         Button(
                             onClick = { telaPagamentoFormas = true },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top = spacing.small)
+                                .height(48.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            )
                         ) {
-                            Text("Pagar")
+                            Text("Pagar", style = MaterialTheme.typography.bodyLarge)
                         }
                     }
+
+
+
+
+            }
                 }
             }
         }
-
         // MENU DE CATEGORIAS SOBREPOSTO
         if (showMenu) {
             CategoriaMenu(
@@ -216,5 +252,6 @@ fun PDVScreen(
             }
         }
     }
-}
+
+
 

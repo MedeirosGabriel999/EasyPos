@@ -1,5 +1,5 @@
 // Componente visual que representa um item do carrinho.
-// Exibe nome, quantidade, preço total e botões + e -
+// Exibe nome, quantidade, preço total e botões com símbolos ➕ e ➖
 // Aplica tema visual e animação suave ao modificar.
 
 package org.project.ui.components
@@ -26,7 +26,7 @@ fun ItemCarrinhoView(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = spacing.small)
-            .animateContentSize(), // anima alterações no conteúdo
+            .animateContentSize(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -50,7 +50,7 @@ fun ItemCarrinhoView(
                 contentPadding = PaddingValues(0.dp),
                 modifier = Modifier.size(32.dp)
             ) {
-                Text("−")
+                Text("➖", style = MaterialTheme.typography.bodyMedium)
             }
             Spacer(modifier = Modifier.width(4.dp))
             Button(
@@ -58,7 +58,7 @@ fun ItemCarrinhoView(
                 contentPadding = PaddingValues(0.dp),
                 modifier = Modifier.size(32.dp)
             ) {
-                Text("+")
+                Text("➕", style = MaterialTheme.typography.bodyMedium)
             }
         }
     }

@@ -36,5 +36,233 @@
                 "categoria": "Bebidas"
             }
         ]
+    },
+    {
+        "id": "V524137",
+        "data": "2025-08-03 11:40",
+        "total": 184.10000000000002,
+        "itens": [
+            {
+                "id": "2",
+                "nome": "Cheeseburguer Bacon",
+                "preco": 22.5,
+                "categoria": "Lanches"
+            },
+            {
+                "id": "3",
+                "nome": "Hambúrguer Duplo",
+                "preco": 25.0,
+                "categoria": "Lanches"
+            },
+            {
+                "id": "6",
+                "nome": "Refrigerante Lata",
+                "preco": 6.0,
+                "categoria": "Bebidas"
+            },
+            {
+                "id": "5",
+                "nome": "Batata Frita Grande",
+                "preco": 12.0,
+                "categoria": "Acompanhamentos"
+            },
+            {
+                "id": "7",
+                "nome": "Suco Natural",
+                "preco": 7.5,
+                "categoria": "Bebidas"
+            },
+            {
+                "id": "8",
+                "nome": "Água Mineral",
+                "preco": 4.0,
+                "categoria": "Bebidas"
+            },
+            {
+                "id": "9",
+                "nome": "Milkshake Morango",
+                "preco": 10.9,
+                "categoria": "Bebidas"
+            },
+            {
+                "id": "12",
+                "nome": "Brownie com Sorvete",
+                "preco": 14.5,
+                "categoria": "Sobremesas"
+            },
+            {
+                "id": "11",
+                "nome": "Sorvete Napolitano",
+                "preco": 9.0,
+                "categoria": "Sobremesas"
+            },
+            {
+                "id": "10",
+                "nome": "Sorvete Chocolate",
+                "preco": 9.0,
+                "categoria": "Sobremesas"
+            },
+            {
+                "id": "1",
+                "nome": "Hambúrguer Clássico",
+                "preco": 19.9,
+                "categoria": "Lanches"
+            },
+            {
+                "id": "13",
+                "nome": "Salada Caesar",
+                "preco": 16.0,
+                "categoria": "Lanches"
+            },
+            {
+                "id": "14",
+                "nome": "Wrap de Frango",
+                "preco": 17.9,
+                "categoria": "Lanches"
+            },
+            {
+                "id": "15",
+                "nome": "Mini Cebolas Empanadas",
+                "preco": 9.9,
+                "categoria": "Acompanhamentos"
+            }
+        ]
+    },
+    {
+        "id": "V684204",
+        "data": "2025-08-03 12:3",
+        "total": 16.0,
+        "itens": [
+            {
+                "id": "13",
+                "nome": "Salada Caesar",
+                "preco": 16.0,
+                "categoria": "Lanches"
+            }
+        ]
+    },
+    {
+        "id": "V469825",
+        "data": "2025-08-03 12:5",
+        "total": 22.5,
+        "itens": [
+            {
+                "id": "2",
+                "nome": "Cheeseburguer Bacon",
+                "preco": 22.5,
+                "categoria": "Lanches"
+            }
+        ]
+    },
+    {
+        "id": "V218008",
+        "data": "2025-08-03 12:29",
+        "total": 78.0,
+        "itens": [
+            {
+                "id": "4",
+                "nome": "Batata Frita Pequena",
+                "preco": 8.0,
+                "categoria": "Acompanhamentos"
+            },
+            {
+                "id": "8",
+                "nome": "Água Mineral",
+                "preco": 4.0,
+                "categoria": "Bebidas"
+            },
+            {
+                "id": "12",
+                "nome": "Brownie com Sorvete",
+                "preco": 14.5,
+                "categoria": "Sobremesas"
+            },
+            {
+                "id": "7",
+                "nome": "Suco Natural",
+                "preco": 7.5,
+                "categoria": "Bebidas"
+            }
+        ]
+    },
+    {
+        "id": "V530680",
+        "data": "2025-08-03 13:35",
+        "total": 47.5,
+        "itens": [
+            {
+                "id": "8",
+                "nome": "Água Mineral",
+                "preco": 4.0,
+                "categoria": "Bebidas"
+            },
+            {
+                "id": "7",
+                "nome": "Suco Natural",
+                "preco": 7.5,
+                "categoria": "Bebidas"
+            },
+            {
+                "id": "11",
+                "nome": "Sorvete Napolitano",
+                "preco": 9.0,
+                "categoria": "Sobremesas"
+            },
+            {
+                "id": "10",
+                "nome": "Sorvete Chocolate",
+                "preco": 9.0,
+                "categoria": "Sobremesas"
+            }
+        ]
+    },
+    {
+        "id": "V333592",
+        "data": "2025-08-03 13:40",
+        "total": 107.80000000000001,
+        "itens": [
+            {
+                "id": "1",
+                "nome": "Hambúrguer Clássico",
+                "preco": 19.9,
+                "categoria": "Lanches"
+            },
+            {
+                "id": "2",
+                "nome": "Cheeseburguer Bacon",
+                "preco": 22.5,
+                "categoria": "Lanches"
+            },
+            {
+                "id": "3",
+                "nome": "Hambúrguer Duplo",
+                "preco": 25.0,
+                "categoria": "Lanches"
+            },
+            {
+                "id": "4",
+                "nome": "Batata Frita Pequena",
+                "preco": 8.0,
+                "categoria": "Acompanhamentos"
+            },
+            {
+                "id": "7",
+                "nome": "Suco Natural",
+                "preco": 7.5,
+                "categoria": "Bebidas"
+            },
+            {
+                "id": "6",
+                "nome": "Refrigerante Lata",
+                "preco": 6.0,
+                "categoria": "Bebidas"
+            },
+            {
+                "id": "9",
+                "nome": "Milkshake Morango",
+                "preco": 10.9,
+                "categoria": "Bebidas"
+            }
+        ]
     }
 ]

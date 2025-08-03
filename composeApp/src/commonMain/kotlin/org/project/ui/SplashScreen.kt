@@ -1,67 +1,95 @@
-// Tela inicial do EasyPOS com carrossel de imagens.
-// Usa Crossfade para alternar visualmente e vai para PDV ao clique do usuário.
+// Tela de splash inicial com animação e clique para entrar.
+// Mostra imagens em carrossel com Crossfade e botão para prosseguir.
 
 package org.project.ui
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import easypos.composeapp.generated.resources.Res
-import easypos.composeapp.generated.resources.banner1
-import easypos.composeapp.generated.resources.banner2
-import easypos.composeapp.generated.resources.banner3
-import easypos.composeapp.generated.resources.banners
-import easypos.composeapp.generated.resources.burguer1
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import easypos.composeapp.generated.resources.*
 import org.project.navigation.Screen
+import org.project.ui.theme.LocalSpacing
 
-private const val CAROUSEL_DELAY_MS = 3000L
-
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun SplashScreen(onNavigate: (Screen) -> Unit) {
-
-    // Lista de imagens do carrossel
-    val imagens = listOf(
+    val spacing = LocalSpacing.current
+    val banners = listOf(
         Res.drawable.banner1,
         Res.drawable.banner2,
         Res.drawable.banner3,
-        Res.drawable.banner1
+        Res.drawable.banner4,
+
     )
 
     var index by remember { mutableStateOf(0) }
+    var showContinue by remember { mutableStateOf(false) }
 
-    // Controla a troca automática das imagens
+    // Crossfade entre as imagens a cada 2.5s
     LaunchedEffect(Unit) {
-        while (true) {
-            delay(CAROUSEL_DELAY_MS)
-            index = (index + 1) % imagens.size
+        while (!showContinue) {
+            delay(2500)
+            index = (index + 1) % banners.size
         }
     }
 
-    // Tela clicável para prosseguir
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .clickable { onNavigate(Screen.PDV) }, // vai para PDV ao clicar
+            .background(MaterialTheme.colorScheme.background)
+            .clickable { showContinue = true },
         contentAlignment = Alignment.Center
     ) {
-        Crossfade(targetState = imagens[index], label = "SplashCarrossel") { imagem ->
-            Image(
-                painter = painterResource(imagem),
-                contentScale = ContentScale.FillBounds,
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(spacing.large),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Crossfade(
+                targetState = index,
+                label = "SplashBannerCrossfade"
+            ) { i ->
+                Image(
+                    painter = painterResource(banners[i]),
+                    contentDescription = "Banner ${i + 1}",
+                    modifier = Modifier
+                        .fillMaxSize(), // preenche toda a tela
+                    contentScale = ContentScale.FillBounds
+                )
+            }
 
+            Spacer(modifier = Modifier.height(spacing.large))
 
-//                    .padding(32.dp)
-            )
+            if (showContinue) {
+                Text(
+                    "Toque para continuar",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
+    }
+
+    // Navegar após o clique
+    if (showContinue) {
+        LaunchedEffect(true) {
+            delay(300)
+            onNavigate(Screen.PDV)
         }
     }
 }

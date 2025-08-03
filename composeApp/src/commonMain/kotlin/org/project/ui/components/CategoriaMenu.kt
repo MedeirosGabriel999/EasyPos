@@ -1,15 +1,12 @@
-// Componente visual do menu de categorias sobreposto.
-// Mostra botões para filtrar produtos por categoria e botão de fechar.
-
 package org.project.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.project.ui.theme.LocalSpacing
 
@@ -20,58 +17,72 @@ fun CategoriaMenu(
     onFechar: () -> Unit
 ) {
     val spacing = LocalSpacing.current
+    val categorias = listOf("Todas", "Lanches", "Bebidas", "Acompanhamentos", "Sobremesas")
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xAA000000)), // Fundo escuro translúcido
+            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.94f)),
         contentAlignment = Alignment.CenterStart
     ) {
-        Card(
+        Surface(
             modifier = Modifier
+                .fillMaxHeight()
                 .width(300.dp)
-                .fillMaxHeight(),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                .padding(spacing.medium),
+            shape = MaterialTheme.shapes.extraLarge,
+            color = MaterialTheme.colorScheme.surfaceVariant,
+            tonalElevation = 4.dp
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(spacing.medium),
-                verticalArrangement = Arrangement.spacedBy(spacing.medium)
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    "Categorias",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                Column(verticalArrangement = Arrangement.spacedBy(spacing.medium)) {
+                    Text(
+                        text = "Categorias",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
 
-                listOf("Todas", "Lanches", "Bebidas", "Sobremesas").forEach { categoria ->
-                    val isSelected = categoriaSelecionada == categoria || (categoria == "Todas" && categoriaSelecionada == null)
+                    categorias.forEach { categoria ->
+                        val selecionada = (categoria == "Todas" && categoriaSelecionada == null) || categoriaSelecionada == categoria
 
-                    Button(
-                        onClick = {
-                            val nova = if (categoria == "Todas") null else categoria
-                            onSelecionarCategoria(nova)
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = if (isSelected)
-                                MaterialTheme.colorScheme.primary
-                            else
-                                MaterialTheme.colorScheme.surfaceVariant
-                        ),
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(categoria, color = MaterialTheme.colorScheme.onPrimary)
+                        val backgroundColor =
+                            if (selecionada) MaterialTheme.colorScheme.primary
+                            else MaterialTheme.colorScheme.surface
+
+                        val textColor =
+                            if (selecionada) MaterialTheme.colorScheme.onPrimary
+                            else MaterialTheme.colorScheme.onSurface
+
+                        Surface(
+                            shape = MaterialTheme.shapes.medium,
+                            color = backgroundColor,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    onSelecionarCategoria(if (categoria == "Todas") null else categoria)
+                                }
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .padding(vertical = 12.dp, horizontal = 16.dp)
+                            ) {
+                                Text(categoria, color = textColor)
+                            }
+                        }
                     }
                 }
 
-                Spacer(modifier = Modifier.weight(1f))
-
-                OutlinedButton(
+                Button(
                     onClick = onFechar,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = MaterialTheme.shapes.medium
                 ) {
-                    Text("Fechar", color = MaterialTheme.colorScheme.onSurface)
+                    Text("Fechar")
                 }
             }
         }

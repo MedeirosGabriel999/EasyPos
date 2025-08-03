@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlin.random.Random
@@ -26,7 +27,7 @@ fun PagamentoScreen(
     val spacing = LocalSpacing.current
     var status by remember { mutableStateOf("processando") }
 
-    // Simula processamento com delay e resultado aleatório
+    // Simula processamento e resultado aleatório
     LaunchedEffect(Unit) {
         delay(2000)
         val sucesso = Random.nextInt(100) < 50
@@ -42,18 +43,18 @@ fun PagamentoScreen(
         }
     }
 
-    // Tela escurecida com modal central
+    // Tela escurecida com card centralizado
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xAA000000)), // fundo translúcido
+            .background(Color.Black.copy(alpha = 0.7f)),
         contentAlignment = Alignment.Center
     ) {
         Card(
             modifier = Modifier
-                .width(360.dp)
+                .width(320.dp)
                 .wrapContentHeight(),
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
         ) {
             Box(
@@ -64,15 +65,16 @@ fun PagamentoScreen(
             ) {
                 when (status) {
                     "processando" -> {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            CircularProgressIndicator(
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                            Spacer(modifier = Modifier.height(spacing.medium))
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(spacing.medium)
+                        ) {
+                            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                             Text(
                                 "Processando pagamento...",
                                 style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurface
+                                color = MaterialTheme.colorScheme.onSurface,
+                                textAlign = TextAlign.Center
                             )
                         }
                     }
@@ -81,22 +83,27 @@ fun PagamentoScreen(
                         Text(
                             "✅ Pagamento aprovado com sucesso!",
                             style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.tertiary
+                            color = MaterialTheme.colorScheme.tertiary,
+                            textAlign = TextAlign.Center
                         )
                     }
 
                     "erro" -> {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(spacing.small)
+                        ) {
                             Text(
                                 "❌ Pagamento recusado!",
                                 style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.error
+                                color = MaterialTheme.colorScheme.error,
+                                textAlign = TextAlign.Center
                             )
-                            Spacer(modifier = Modifier.height(spacing.small))
                             Text(
                                 "Tente novamente ou escolha outro método.",
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurface
+                                color = MaterialTheme.colorScheme.onSurface,
+                                textAlign = TextAlign.Center
                             )
                         }
                     }

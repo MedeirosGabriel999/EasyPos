@@ -12,21 +12,10 @@ plugins {
 }
 
 kotlin {
-    // 1. O bloco 'compilerOptions' foi removido daqui.
     androidTarget()
-
     jvm("desktop")
 
     sourceSets {
-        val desktopMain by getting
-
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-        }
-
-        // 2. Estrutura do commonMain corrigida para incluir dependências e recursos
-        //    no mesmo escopo, que é a forma correta.
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
@@ -35,23 +24,34 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.components.resources)
                 implementation(compose.components.uiToolingPreview)
+
                 implementation(libs.androidx.lifecycle.viewmodel)
                 implementation(libs.androidx.lifecycle.runtimeCompose)
 
-                // implementation(projects.shared)
                 api(libs.kotlinx.serialization.json)
                 api(libs.kotlinx.datetime)
             }
             resources.setSrcDirs(listOf("src/commonMain/resources"))
         }
 
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
         }
 
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutinesSwing)
+        val androidMain by getting {
+            dependencies {
+                implementation(compose.preview)
+                implementation(libs.androidx.activity.compose)
+            }
+        }
+
+        val desktopMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+                implementation(libs.kotlinx.coroutinesSwing)
+            }
         }
     }
 }
@@ -68,22 +68,21 @@ android {
         versionName = "1.0"
     }
 
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
         }
     }
 
-    // Esta é a configuração correta e suficiente para o Android.
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
