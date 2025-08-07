@@ -13,6 +13,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.project.data.VendasRepository
 
+/**
+ * Composable responsável por exibir uma tela de histórico de vendas.
+ *
+ * A tela apresenta uma lista de vendas recuperadas através do método `lerVendas` do
+ * repositório `VendasRepository`. Cada venda é exibida em um cartão contendo informações
+ * detalhadas, como identificador da venda, data, valor total e itens vendidos.
+ *
+ * O layout é organizado em uma coluna que ocupa a área total disponível e permite rolagem
+ * vertical. Cada cartão contém detalhes estilizados como título, cor e espaçamento entre
+ * itens, oferecendo uma interface visual agradável e estruturada.
+ *
+ * Detalhes exibidos para cada venda:
+ * - ID da venda
+ * - Data da venda
+ * - Valor total formatado em reais
+ * - Lista de itens vendidos
+ *
+ * Requer o uso do Compose para renderizar o conteúdo e gerenciar os componentes declarativos.
+ */
 @Composable
 fun HistoricoScreen() {
     val vendasSalvas = VendasRepository.lerVendas()

@@ -18,6 +18,14 @@ import kotlin.random.Random
 import org.project.navigation.Screen
 import org.project.ui.theme.LocalSpacing
 
+/**
+ * Tela responsável por gerenciar o fluxo de pagamento, exibindo um status de processamento,
+ * sucesso ou erro, dependendo dos resultados simulados.
+ *
+ * @param onNavigate função que navega para uma nova tela baseada no evento ocorrido.
+ * @param onFecharModal função chamada para fechar o modal de pagamento.
+ * @param onResultado callback que retorna o resultado do pagamento, indicando se foi bem-sucedido (true) ou não (false).
+ */
 @Composable
 fun PagamentoScreen(
     onNavigate: (Screen) -> Unit,

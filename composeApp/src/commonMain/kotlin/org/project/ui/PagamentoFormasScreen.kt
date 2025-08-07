@@ -12,6 +12,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.project.navigation.Screen
 
+/**
+ * Tela de pagamento que exibe as opções de formas de pagamento disponíveis
+ * e um botão para cancelar a operação.
+ *
+ * @param onSelecionarForma Callback acionado quando uma das formas de pagamento é selecionada.
+ *                          O parâmetro representa a tela que será exibida.
+ * @param onCancelar Callback acionado ao cancelar o processo de pagamento.
+ */
 @Composable
 fun PagamentoScreen(
     onSelecionarForma: (Screen) -> Unit,

@@ -1,3 +1,4 @@
+
 // Tela principal do EasyPOS.
 // Exibe lista de produtos, carrinho de compras, menu de categorias e tela de pagamento.
 // Aplica tema visual consistente com tipografia, cores e espaçamentos.
@@ -14,6 +15,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.project.data.mockProdutos
 import org.project.models.ItemCarrinho
@@ -26,6 +28,12 @@ import org.project.utils.adicionarProduto
 import org.project.utils.diminuirProduto
 import org.project.utils.salvarVendaAtual
 
+/**
+ * Tela principal do Ponto de Venda (PDV) que gerencia a exibição de produtos, carrinho e fluxo de pagamento.
+ *
+ * @param isDarkTheme Função que controla a troca entre os temas claro e escuro do aplicativo.
+ * @param onNavigate Função de callback usada para navegação entre diferentes telas da aplicação.
+ */
 @Composable
 fun PDVScreen(
     isDarkTheme: (Boolean) -> Unit,
@@ -40,6 +48,10 @@ fun PDVScreen(
     var showMenu by remember { mutableStateOf(false) }
 
     val spacing = LocalSpacing.current
+
+    // Cores personalizadas para os botões
+    val verdeClaro = Color(0x9081C784) // Verde suave
+    val vermelhoClaro = Color(0x90EF5350) // Vermelho suave
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -100,7 +112,8 @@ fun PDVScreen(
                     )
 
                     FlowRow(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(10.dp),
                         horizontalArrangement = Arrangement.spacedBy(spacing.medium),
                         verticalArrangement = Arrangement.spacedBy(spacing.medium)
                     ) {
@@ -111,6 +124,7 @@ fun PDVScreen(
                                     produto = produto,
                                     modifier = Modifier
                                         .width(180.dp) // Melhor para grid touch e responsividade
+                                        .height(220.dp)
                                 ) {
                                     adicionarProduto(it, carrinho)
                                 }
@@ -155,7 +169,7 @@ fun PDVScreen(
                             .padding(spacing.small)
                             .fillMaxWidth()
                             .background(
-                                color = MaterialTheme.colorScheme.primaryContainer,
+                                color = Color.Transparent,
                                 shape = MaterialTheme.shapes.medium
                             )
                             .padding(spacing.medium)
@@ -181,27 +195,56 @@ fun PDVScreen(
 
                         Spacer(modifier = Modifier.height(spacing.small))
 
-                        Button(
-                            onClick = { telaPagamentoFormas = true },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(48.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary
-                            )
+                        // ROW COM BOTÕES FINALIZAR E LIMPAR
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(spacing.small)
                         ) {
-                            Text("Pagar", style = MaterialTheme.typography.bodyLarge)
+                            // BOTÃO LIMPAR CARRINHO (VERMELHO CLARO)
+                            Button(
+                                onClick = {
+                                    carrinho.clear()
+                                },
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(48.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = vermelhoClaro,
+                                    contentColor = Color.White,
+                                    disabledContainerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+                                    disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                                ),
+                                enabled = carrinho.isNotEmpty()
+                            ) {
+                                Text("Limpar", style = MaterialTheme.typography.bodyLarge)
+                            }
+
+                            // BOTÃO FINALIZAR VENDA (VERDE CLARO)
+                            Button(
+                                onClick = {
+                                    if (carrinho.isNotEmpty()) {
+                                        telaPagamentoFormas = true
+                                    }
+                                },
+                                modifier = Modifier
+                                    .weight(2f)
+                                    .height(48.dp),
+                                enabled = carrinho.isNotEmpty(),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = verdeClaro,
+                                    contentColor = Color.White,
+                                    disabledContainerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+                                    disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                                )
+                            ) {
+                                Text("Finalizar Venda", style = MaterialTheme.typography.bodyLarge)
+                            }
                         }
                     }
-
-
-
-
-            }
                 }
             }
         }
+
         // MENU DE CATEGORIAS SOBREPOSTO
         if (showMenu) {
             CategoriaMenu(
@@ -252,6 +295,4 @@ fun PDVScreen(
             }
         }
     }
-
-
-
+}

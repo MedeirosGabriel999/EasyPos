@@ -23,6 +23,13 @@ import easypos.composeapp.generated.resources.*
 import org.project.navigation.Screen
 import org.project.ui.theme.LocalSpacing
 
+/**
+ * Tela de splash inicial que exibe uma sequência de banners de forma dinâmica, permite
+ * interação do usuário por toque e navega para outra tela após a interação.
+ *
+ * @param onNavigate Função que será chamada ao concluir a interação na SplashScreen,
+ * passando como parâmetro a tela destino do tipo [Screen].
+ */
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun SplashScreen(onNavigate: (Screen) -> Unit) {
@@ -56,8 +63,8 @@ fun SplashScreen(onNavigate: (Screen) -> Unit) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(spacing.large),
+                .fillMaxSize(),
+//                .padding(spacing.large),
             verticalArrangement = Arrangement.Center
         ) {
             Crossfade(
